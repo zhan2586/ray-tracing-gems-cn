@@ -48,7 +48,7 @@ PART 5: DENOISING AND FILTERING, editor: Jacob Munkberg
 - [x] `XBOOS` 19. Cinematic Rendering in UE4 with Real-Time Ray Tracing and Denoising, by Edward Liu, Ignacio Llamas, Juan Cañada, and Patrick Kelly
 - [x] `gigichq` 20. Texture Level of Detail Strategies for Real-Time Ray Tracing, by Tomas Akenine-Möller, Jim Nilsson, Magnus Andersson, Colin Barré-Brisebois, Robert Toth, and Tero Karras
 - [ ] 21. Simple Environment Map Filtering Using Ray Cones and Ray Differentials, by Tomas Akenine-Möller and Jim Nilsson
-- [ ] 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
+- [x] `bluesummer` 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
 
 PART 6: HYBRID APPROACHES AND SYSTEMS, editor: Morgan McGuire
 =
