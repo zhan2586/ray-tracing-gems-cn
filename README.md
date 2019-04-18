@@ -45,7 +45,7 @@ PART 4: SAMPLING, editor: Alexander Keller
 
 PART 5: DENOISING AND FILTERING, editor: Jacob Munkberg
 =
-- [ ] 19. Cinematic Rendering in UE4 with Real-Time Ray Tracing and Denoising, by Edward Liu, Ignacio Llamas, Juan Cañada, and Patrick Kelly
+- [x] `XBOOS` 19. Cinematic Rendering in UE4 with Real-Time Ray Tracing and Denoising, by Edward Liu, Ignacio Llamas, Juan Cañada, and Patrick Kelly
 - [ ] 20. Texture Level of Detail Strategies for Real-Time Ray Tracing, by Tomas Akenine-Möller, Jim Nilsson, Magnus Andersson, Colin Barré-Brisebois, Robert Toth, and Tero Karras
 - [ ] 21. Simple Environment Map Filtering Using Ray Cones and Ray Differentials, by Tomas Akenine-Möller and Jim Nilsson
 - [ ] 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
@@ -53,9 +53,9 @@ PART 5: DENOISING AND FILTERING, editor: Jacob Munkberg
 PART 6: HYBRID APPROACHES AND SYSTEMS, editor: Morgan McGuire
 =
 - [x] `quicklyslow` 23. Interactive Light Map and Irradiance Volume Preview in Frostbite, by Diede Apers, Petter Edblom, Charles de Rousiers, and Sébastien Hillaire
-- [ ] 24. Real-Time Global Illumination with Photon Mapping, by Niklas Smal and Maksim Aizenshtein
-- [ ] 25. Hybrid Rendering for Real-Time Ray Tracing, by Colin Barré-Brisebois, Henrik Halén, Graham Wihlidal, Andrew Lauritzen, Jasper Bekkers, Tomasz Stachowiak, and Johan Andersson
-- [ ] 26. Deferred Hybrid Path Tracing, by Thomas Schander, Clemens Musterle, and Stephan Bergmann
+- [x] `tavechiang` 24. Real-Time Global Illumination with Photon Mapping, by Niklas Smal and Maksim Aizenshtein
+- [x] `tankiJong` 25. Hybrid Rendering for Real-Time Ray Tracing, by Colin Barré-Brisebois, Henrik Halén, Graham Wihlidal, Andrew Lauritzen, Jasper Bekkers, Tomasz Stachowiak, and Johan Andersson
+- [x] `tankiJong` 26. Deferred Hybrid Path Tracing, by Thomas Schander, Clemens Musterle, and Stephan Bergmann
 - [ ] 27. Interactive Ray Tracing Techniques for High-Fidelity Scientific Visualization, by John E. Stone
 
 PART 7: GLOBAL ILLUMINATION, editor: Matt Pharr
