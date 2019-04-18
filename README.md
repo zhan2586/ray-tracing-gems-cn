@@ -46,7 +46,7 @@ PART 4: SAMPLING, editor: Alexander Keller
 PART 5: DENOISING AND FILTERING, editor: Jacob Munkberg
 =
 - [x] `XBOOS` 19. Cinematic Rendering in UE4 with Real-Time Ray Tracing and Denoising, by Edward Liu, Ignacio Llamas, Juan Cañada, and Patrick Kelly
-- [ ] 20. Texture Level of Detail Strategies for Real-Time Ray Tracing, by Tomas Akenine-Möller, Jim Nilsson, Magnus Andersson, Colin Barré-Brisebois, Robert Toth, and Tero Karras
+- [x] `gigichq` 20. Texture Level of Detail Strategies for Real-Time Ray Tracing, by Tomas Akenine-Möller, Jim Nilsson, Magnus Andersson, Colin Barré-Brisebois, Robert Toth, and Tero Karras
 - [ ] 21. Simple Environment Map Filtering Using Ray Cones and Ray Differentials, by Tomas Akenine-Möller and Jim Nilsson
 - [ ] 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
 
@@ -62,6 +62,6 @@ PART 7: GLOBAL ILLUMINATION, editor: Matt Pharr
 =
 - [x] `qingqhua` 28. Ray Tracing Inhomogeneous Volumes, by Matthias Raab
 - [x] `zhan2586` 29. Efficient Particle Volume Splatting in a Ray Tracer, by Aaron Knoll, R. Keith Morley, Ingo Wald, Nick Leaf, and Peter Messmer
-- [ ] 30. Caustics Using Screen Space Photon Mapping, by Hyuk Kim
+- [x] `FancyVin` 30. Caustics Using Screen Space Photon Mapping, by Hyuk Kim
 - [x] `papalqi` 31. Variance Reduction via Footprint Estimation in the Presence of Path Reuse, by Johannes Jendersie
 - [x] `papalqi` 32. Accurate Real-Time Specular Reflections with Radiance Caching, by Antti Hirvonen, Atte Seppälä, Maksim Aizenshtein, and Niklas Smal
