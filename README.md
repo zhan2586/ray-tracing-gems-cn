@@ -23,10 +23,10 @@ PART 1: RAY TRACING BASICS, editor: Chris Wyman
 
 PART 2: INTERSECTIONS AND EFFICIENCY, editor: Ingo Wald
 =
-- [ ] 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
+- [x] `haiyuem` 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
 - [x] `AmesingFlank` 7. Precision Improvements for Ray/Sphere Intersection, by Eric Haines, Johannes Günther, and Tomas Akenine-Möller
 - [ ] 8. Cool Patches: A Geometric Approach to Ray/Bilinear Patch Intersections, by Alexander Reshetov
-- [ ] 9. Multi-Hit Ray Tracing in DXR, by Christiaan Gribble
+- [x] `lifangjie` 9. Multi-Hit Ray Tracing in DXR, by Christiaan Gribble
 - [x] `butterfly0923` 10. A Simple Load-Balancing Scheme with High Scaling Efficiency, by Dietger van Antwerpen, Daniel Seibert, and Alexander Keller
 
 PART 3: REFLECTIONS, REFRACTIONS, AND SHADOWS, editor: Peter Shirley
@@ -47,7 +47,7 @@ PART 5: DENOISING AND FILTERING, editor: Jacob Munkberg
 =
 - [x] `XBOOS` 19. Cinematic Rendering in UE4 with Real-Time Ray Tracing and Denoising, by Edward Liu, Ignacio Llamas, Juan Cañada, and Patrick Kelly
 - [x] `gigichq` 20. Texture Level of Detail Strategies for Real-Time Ray Tracing, by Tomas Akenine-Möller, Jim Nilsson, Magnus Andersson, Colin Barré-Brisebois, Robert Toth, and Tero Karras
-- [ ] 21. Simple Environment Map Filtering Using Ray Cones and Ray Differentials, by Tomas Akenine-Möller and Jim Nilsson
+- [x] `Cielrin` 21. Simple Environment Map Filtering Using Ray Cones and Ray Differentials, by Tomas Akenine-Möller and Jim Nilsson
 - [x] `bluesummer` 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
 
 PART 6: HYBRID APPROACHES AND SYSTEMS, editor: Morgan McGuire
