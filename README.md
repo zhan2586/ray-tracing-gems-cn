@@ -3,7 +3,7 @@
 
 # 暂定的讨论方式，QQ 群聊
 
-![](https://raw.githubusercontent.com/vinjn/ray-tracing-gems-cn/master/media/qq-group.jpg)
+![](media/qq-group.png)
 
 # 原文 PDF
 - [Original Apress download page](https://link.springer.com/book/10.1007/978-1-4842-4427-2)
