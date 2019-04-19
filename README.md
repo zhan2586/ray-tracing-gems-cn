@@ -60,7 +60,7 @@ PART 6: HYBRID APPROACHES AND SYSTEMS, editor: Morgan McGuire
 - [x] `tavechiang` 24. Real-Time Global Illumination with Photon Mapping, by Niklas Smal and Maksim Aizenshtein
 - [x] `tankiJong` 25. Hybrid Rendering for Real-Time Ray Tracing, by Colin Barré-Brisebois, Henrik Halén, Graham Wihlidal, Andrew Lauritzen, Jasper Bekkers, Tomasz Stachowiak, and Johan Andersson
 - [x] `tankiJong` 26. Deferred Hybrid Path Tracing, by Thomas Schander, Clemens Musterle, and Stephan Bergmann
-- [ ] 27. Interactive Ray Tracing Techniques for High-Fidelity Scientific Visualization, by John E. Stone
+- [x] `zhxx1987` 27. Interactive Ray Tracing Techniques for High-Fidelity Scientific Visualization, by John E. Stone
 
 PART 7: GLOBAL ILLUMINATION, editor: Matt Pharr
 =
