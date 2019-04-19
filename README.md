@@ -29,7 +29,7 @@ PART 2: INTERSECTIONS AND EFFICIENCY, editor: Ingo Wald
 =
 - [x] `haiyuem` 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
 - [x] `AmesingFlank` 7. Precision Improvements for Ray/Sphere Intersection, by Eric Haines, Johannes Günther, and Tomas Akenine-Möller
-- [ ] 8. Cool Patches: A Geometric Approach to Ray/Bilinear Patch Intersections, by Alexander Reshetov
+- [x] `wubochang` 8. Cool Patches: A Geometric Approach to Ray/Bilinear Patch Intersections, by Alexander Reshetov
 - [x] `lifangjie` 9. Multi-Hit Ray Tracing in DXR, by Christiaan Gribble
 - [x] `butterfly0923` / `zhxx1987` 10. A Simple Load-Balancing Scheme with High Scaling Efficiency, by Dietger van Antwerpen, Daniel Seibert, and Alexander Keller
 
