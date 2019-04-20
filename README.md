@@ -1,5 +1,5 @@
 # ray-tracing-gems-cn
-光线跟踪精粹（暂定名）
+光线追踪精粹（暂定名）
 
 ## 翻译进度
 https://github.com/vinjn/ray-tracing-gems-cn/projects
