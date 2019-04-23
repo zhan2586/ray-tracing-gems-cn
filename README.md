@@ -27,7 +27,7 @@ https://github.com/vinjn/ray-tracing-gems-cn/projects
 - [x] `editazhu` 5. Computing Minima and Maxima of Subarrays, by Ingo Wald
 
 ## PART 2: INTERSECTIONS AND EFFICIENCY, editor: Ingo Wald
-- [x] `haiyuem` 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
+- [x] `haiyuem` / `liyongnupt` 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
 - [x] `AmesingFlank` 7. Precision Improvements for Ray/Sphere Intersection, by Eric Haines, Johannes Günther, and Tomas Akenine-Möller
 - [x] `wubochang` 8. Cool Patches: A Geometric Approach to Ray/Bilinear Patch Intersections, by Alexander Reshetov
 - [x] `lifangjie` 9. Multi-Hit Ray Tracing in DXR, by Christiaan Gribble
