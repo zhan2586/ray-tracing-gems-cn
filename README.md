@@ -24,7 +24,7 @@ https://github.com/vinjn/ray-tracing-gems-cn/projects
 - [x] `YanFeiGao` / `papalqi` 2. What is a Ray? by Peter Shirley, Ingo Wald, Tomas Akenine-Möller, and Eric Haines
 - [x] `jingjingshenye` 3. Introduction to DirectX Raytracing, by Chris Wyman and Adam Marrs
 - [x] `Nicholas10128` 4. A Planetarium Dome Master Camera, by John E. Stone
-- [x] `editazhu` 5. Computing Minima and Maxima of Subarrays, by Ingo Wald
+- [x]  5. Computing Minima and Maxima of Subarrays, by Ingo Wald
 
 ## PART 2: INTERSECTIONS AND EFFICIENCY, editor: Ingo Wald
 - [x] `haiyuem` / `liyongnupt` 6. A Fast and Robust Method for Avoiding Self-Intersection, by Carsten Wächter and Nikolaus Binder
