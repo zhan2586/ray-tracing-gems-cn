@@ -41,7 +41,7 @@ https://github.com/vinjn/ray-tracing-gems-cn/projects
 
 PART 4: SAMPLING, editor: Alexander Keller
 =
-- [x] `papalqi` 15. On the Importance of Sampling, by Matt Pharr
+- [x] `Altmice` 15. On the Importance of Sampling, by Matt Pharr
 - [x] `FancyVin` / `FaithZL` 16. Sample Transformations Zoo, by Peter Shirley, Samuli Laine, David Hart, Matt Pharr, Petrik Clarberg, Eric Haines, Matthias Raab, and David Cline
 - [x] `Angiewei` / `slongle` 17. Ignoring the Inconvenient When Tracing Rays, by Matt Pharr
 - [x] `slongle` 18. Importance Sampling of Many Lights on the GPU, by Pierre Moreau and Petrik Clarberg
