@@ -143,11 +143,19 @@ c 的符号可以用于判断相交检测应该返回 t0 还是 t1。
 
 ## 参考文献
 [1] Benty, N., Yao, K.-H., Foley, T., Kaplanyan, A. S., Lavelle, C., Wyman, C., and Vijay, A. The Falcor Rendering Framework. https://github.com/NVIDIAGameWorks/Falcor, July 2017.
+
 [2] Haines, E. Essential Ray Tracing Algorithms. In An Introduction to Ray Tracing, A. S. Glassner, Ed. Academic Press Ltd., 1989, pp. 33–77.
+
 [3] Hearn, D. D., and Baker, M. P. Computer Graphics with OpenGL, third ed. Pearson, 2004.
+
 [4] Kulla, C., Conty, A., Stein, C., and Gritz, L. Sony Pictures Imageworks Arnold. ACM Transactions on Graphics 37, 3 (2018), 29:1–29:18.
+
 [5] Pharr, M., Jakob, W., and Humphreys, G. Physically Based Rendering: From Theory to Implementation, third ed. Morgan Kaufmann, 2016.
+
 [6] Press, W. H., Teukolsky, S. A., Vetterling, W. T., and Flannery, B. P. Numerical Recipes: The Art of Scientific Computing, third ed. Cambridge University Press, 2007.
+
 [7] Quílez, I. Intersectors. http://www.iquilezles.org/www/articles/intersectors/ intersectors.htm, 2018.
+
 [8] Wyman, C. A Gentle Introduction to DirectX Raytracing, August 2018. Original code linked from http://cwyman.org/code/dxrTutors/dxr_tutors.md.html; newer code available via https://github.com/NVIDIAGameWorks/GettingStartedWithRTXRayTracing. Last accessed November 12, 2018.
+
 [9] Wyman, C., and Haines, E. Getting Started with RTX Ray Tracing. https://github.com/ NVIDIAGameWorks/GettingStartedWithRTXRayTracing, October 2018.
