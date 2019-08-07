@@ -53,7 +53,7 @@ PART 4: SAMPLING, editor: Alexander Keller
 - [x] `bluesummer` 22. Improving Temporal Antialiasing with Adaptive Ray Tracing, by Adam Marrs, Josef Spjut, Holger Gruen, Rahul Sathe, and Morgan McGuire
 
 ## PART 6: HYBRID APPROACHES AND SYSTEMS, editor: Morgan McGuire
-- [x] `quicklyslow` 23. Interactive Light Map and Irradiance Volume Preview in Frostbite, by Diede Apers, Petter Edblom, Charles de Rousiers, and Sébastien Hillaire
+- [x] `N/A` 23. Interactive Light Map and Irradiance Volume Preview in Frostbite, by Diede Apers, Petter Edblom, Charles de Rousiers, and Sébastien Hillaire
 - [x] `tavechiang` 24. Real-Time Global Illumination with Photon Mapping, by Niklas Smal and Maksim Aizenshtein
 - [x] `tankiJong` / `rockyvon` 25. Hybrid Rendering for Real-Time Ray Tracing, by Colin Barré-Brisebois, Henrik Halén, Graham Wihlidal, Andrew Lauritzen, Jasper Bekkers, Tomasz Stachowiak, and Johan Andersson
 - [x] `tankiJong` 26. Deferred Hybrid Path Tracing, by Thomas Schander, Clemens Musterle, and Stephan Bergmann
