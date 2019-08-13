@@ -154,15 +154,63 @@ $$p(L)=\frac{\text{importance}(L)}{\text{importance}(L)+\text{importance}(R)}$$
 在遍历结束时，选择了包含一定数量光源的叶节点。要确定要采样的三角形，我们可以等概率选择一个存储在叶节点中的三角形，或者使用类似于在遍历期间用于计算节点重要性的方法。对于重要性采样，我们考虑到达三角形的最近距离和三角形的最大$\boldsymbol{n}\cdot\boldsymbol{l}$界限；考虑包括三角形的通量及其对着色点的方向可可以进一步提高效果。目前，每个叶节点最多存储10个三角形。  
 #### 18.4.3.4 对光源的采样
 在通过树遍历选择光源后，需要在该光源上生成光样本。我们使用Shirley等人提出的采样技术[[37]()]用于在不同类型的光源的表面上均匀地产生光源样本。  
-## 18.5 结果 (17-25)
+## 18.5 结果
+接下来我们演示在具有不同数量光源的多个场景下该算法的结果，其中我们测量误差降低的速率，构建BVH所花费的时间以及渲染的时间。  
+渲染是通过首先使用DirectX 12在G-buffer中栅格化场景，然后对于全屏的每个像素使用一条阴影射线进行光线追踪从而进行光源采样，最后在没有移动的情况下累积该帧的结果来完成的。所有结果均在NVIDIA GeForce RTX 2080 Ti和3.60 GHz的Intel Xeon E5-1650上测量，场景的分辨率为1920×1080像素。对于本章中显示的所有结果，没有计算间接光照，而是使用该算法来改进直接光照的计算。  
+我们在测试中使用以下场景，如图[18-4]()所示：  
+**Sun Temple:** 这个场景有606,376个三角形，其中有67,374个发光纹理;但是，在第[18.4.1]()节描述的纹理预积分处理之后，只剩下1,095个发光三角形。整个场景由纹理火坑照亮; 图[18-4]()所示场景的一部分仅由位于右侧的两个火坑以及位于摄像机后面的其他小火坑照亮。场景完全是漫反射(diffuse)的。  
+**Bistro:** 这个Bistro场景已被修改，使许多不同光源的网格实际上是发光的。在总共2,829,226个三角形中，总共有20,638个发光纹理三角形。总体而言，光源主要由小型灯泡组成，增加了几十个小型聚光灯和一些发光的商店标志。除了小酒馆的窗户和Vespa摩托车之外，场景大多是漫反射(diffuse)的。  
+**Paragon Battlegrounds:** 这个场景由三个不同的部分组成，其中我们只使用两个部分：Dawn(PBG-D)和Ruins(PBG-R)。两者都包括位于地面的大型发光面灯光，以及雕刻在岩石上的符文或炮塔上的小灯等小型灯光。除了树木以外，大多数材料都是镜面(specular)的。PBG-D具有90,535个发光纹理三角形，其中53,210个在纹理预处理后留下;整个场景由2,467,759个三角形组成(包括发光三角形)。相比之下，PBG-R具有389,708个发光纹理三角形，其中199,830个在纹理预处理后留下; 整个场景由5,672,788个三角形组成(包括发光三角形)。  
+![](https://i.postimg.cc/Kj71ftT6/ch18-004.png)  
+**图片18-4.** 用于测试的所有场景的视图。  
+需要注意的是，虽然所有这些场景当前都是静态的，但我们的方法通过重建每帧的光源加速结构可以支持动态场景。类似于DXR允许重新加载加速结构，而不改变其拓扑结构，如果灯光在帧之间没有明显的移动，我们可以选择仅更新预构建树中的节点。  
+我们对本节中使用的某些方法使用不同的缩写。以"BVH_"开头的方法将遍历BVH层次结构以选择三角形。"BVH_"之后的后缀是指在遍历期间使用的信息："D"表示视点与节点中心之间的距离，"F"表示节点中包含的通量，"B"表示$\bold{n}\cdot\bold{l}$的范围，最后"O"表示节点方向锥。Uniform方法使用MIS[[41]()]将通过采样BRDF获得的样本与通过以均匀概率从场景中的所有发光三角形中随机选择发光三角形而获得的样本组合。  
+当采用MIS[[41]()]时，我们使用幂指数为$2$的幂启发式。在采样BRDF和采样光源之间平均分配。  
 ### 18.5.1 性能
 #### 18.5.1.1 加速结构的构建
+使用SAH建立BVH，仅在最大的轴上有16个箱，在Sun Temple上需要大约2.3毫秒，Bistro需要26毫秒，在Paragon Battlegrounds上需要280毫秒。 请注意，BVH构建器的当前实现是基于CPU的，是单线程的，并且不使用向量操作。  
+在每个步骤沿所有三个轴来分箱大约慢2倍，这是由于具有三倍的分割候选方案，但是得到的树在运行时可能不会表现得更好。此处显示的时间使用每轴16个箱的默认设置。减少该数量使得构建更快，例如，4个箱子大约快2倍，但质量再次受损。对于剩下的测量，我们使用了最高质量的设置，因为我们希望一旦将代码移植到GPU并用于具有数万个光源的类似游戏的场景中时，树的构建不会成为问题。  
+SAOH的构建时间比SAH长3倍。差异主要是由于额外的光锥计算。我们在所有灯光上迭代一次以计算锥体方向，并第二次迭代计算角度边界。使用近似方法或自下而上计算边界可以加快速度。  
+使用体积而不是表面积不会使构建的性能发生任何变化。    
 #### 18.5.1.2 每帧的渲染时间
+接下来我们测量渲染时间，使用不同的启发式方法构建树，并且打开所有的采样选项。见表格[18-1]()。与构建性能类似，使用基于体积的度量而不是表面区域不会显着影响渲染时间(通常在基于表面区域的时间的0.2毫秒内)。沿所有三个轴或仅最大轴的分组也不会对渲染时间产生显着影响(彼此相差0.5毫秒)。  
+![](https://i.postimg.cc/CxSQc03X/ch18-005.png)  
+**表格 18-1.** 每帧以毫秒为单位的渲染时间，每个像素有四条阴影射线，测量超过1,000帧，并使用不同构建参数的SAH和SAOH启发式算法。BVH_DFBO方法与MIS一起使用，16个箱用于分箱，每个叶节点最多存储一个三角形。  
+当测试每个叶节点中保存不同最大三角形数量(1,2,4,8和10)时，发现渲染时间在彼此相差在的5％之内，其中1和10是最快的。两个场景的结果可以在图片[18-5]()中找到，在其他场景中也观察到类似的表现。计算每个三角形的重要性会增加明显的开销。相反，每个叶节点存储更多三角形将导致树高更低，因此更快地遍历。应当注意，叶节点的物理大小没有改变(即，它总是被设置为接受多达10个三角形ID)，只有BVH构建器被允许放入叶节点的量改变了。此外，对于这些测试，关注与整体的构建成本，而不是一个叶节点构建成本。  
+![](https://i.postimg.cc/6qCMhbYB/ch18-006.png)  
+**图片 18-5.** 对于Bistro(view 1))左)和PBG-R(右)每帧的渲染时间(以毫秒为单位)。每个叶节点的不同最大三角形数量，对叶节点内的三角形选择是否执行重要采样。在所有情况下，BVH使用SAOH沿所有三个轴构建16个箱，并且使用BVH_DFBO来遍历。  
+使用SAH或SAOH的渲染时间总体相似，但是在光源上使用BVH以及考虑使用哪个重要性函数确实会产生显著影响，使用BVH_DFBO会比均匀采样慢2到3倍。如图18-6所示。这归结为从BVH获取节点所需的额外带宽以及在额外地计算$\bold{n}\cdot\bold{l}$的范围(bound)和基于方向锥的权重。这个额外花费可以通过压缩BVH节点来降低(例如，使用16位浮点数代替32位浮点数)；当前节点的内部节点为64字节，外部节点为96字节。  
+![](https://i.postimg.cc/pLKnLbyW/ch18-007.png)    
+**图片 18-6.** 比较在Bistro(view 1)(左)和PBG-R(右)两个场景中每一帧以毫秒为单位的渲染时间，比较使用不同的遍历方法和直接BRDF采样。所有方法使用每个像素4样本，并且基于BVH的方法使用在三个轴上取16个箱。   
 ### 18.5.2 图像质量
 #### 18.5.2.1 构建选项
+总体而言，使用体积的变种的表现比使用表面积的对应方法差，并且使用16个箱的方法比仅使用4个箱的对应方法表现更好。至于应该考虑使用多少轴来定义最佳分割，考虑到在大多数情况下，相比于仅使用最大轴的方法，使用三个轴可以得到均方误差更低的结果，但并非总是如此。最后，SAOH变种通常优于或至少与其SAH的对应方法相当。这可能在很大程度上取决于它们在BVH的顶部如何形成节点：当这些节点包含场景中的大部分光，它们对于它们包含的发光表面的空间和方向的近似较差。  
+这可以在图片[18-7]()中看到，在药房商店标志周围的区域(由红色箭头指向)，例如在A点(由白色箭头指向)。当使用SAH时，A点比红色节点更接近绿色节点，导致选择绿色节点的可能性更高，因此即使绿灯很重要，也会错过十字标志发出的绿光，这个可以在图[18-4]()的Bistro(view 3)中看到。相反，对于SAOH，A点很有可能选择包含绿光的节点，从而提高该区域的收敛速度。然而，由于类似的原因，有可能找到某个区域使得SAH有比SAOH更好的结果。   
+![](https://i.postimg.cc/WpFkDJHb/ch18-008.png)  
+**图片 18-7.** 对使用SAH(左)和SAOH(右)构建BVH的第二层可视化;左子节点的AABB是绿色的，右子节点的AABB是紫色的。在这两种情况下，都使用了16个箱，并考虑了三个轴。  
 #### 18.5.2.2 每个叶节点的三角形数量
+随着更多三角形被存储在叶节点中，当均匀采样三角形时，质量将会下降，因为它将比在树中遍历的过程更差。与等均匀采样相比，使用重要性采样可降低质量下降，但它仍然比只使用树更糟糕。Bistro(view 3)的结果可以在图[18-8]()的右侧看到。  
+![](https://i.postimg.cc/d18cX60V/ch18-009.png)    
+**图片 18-8.** 在Bistro(view 3)中比较不同遍历方法的均方误差(MSE)结果，与采样BRDF以获得光采样方向(左)及对于不同的最大三角形数量对于BVH_DFBO的影响(右)。所有方法使用每个像素4样本，并且基于BVH的方法使用在三个轴上取16个箱。  
 #### 18.5.2.3 采样方法
+在图[18-9]()中，我们可以看到在使用和组合不同的采样策略时，渲染Bistro(view 2)场景得到的结果。  
+![](https://i.postimg.cc/5ygd9tLc/ch18-010.png)  
+**图片 18-9.** 使用第[18.4.3]()节中定义的不同采样策略，每个像素4样本(SPP)(左)和16SPP(右)的结果。所有基于BVH的方法都使用由SAOH构建的BVH，沿所有轴评估16个箱。采样时使用MIS：一半样本采样BRDF，一半采样光源加速结构。  
+正如预期的那样，使用光源采样大大优于BRDF采样方法，因为能够在每个像素处找到一些有效的光路。使用距离作为重要性的BVH可以获取附近光源的贡献，正如小酒馆门两侧放置的两个白色光源所见，门面或窗户上放置不同的光源。  
+当在遍历期间考虑光源的通量时，我们可以观察到从大部分蓝色(来自最接近地面的悬挂小的蓝色光源)到来自不同路灯的更黄色调的偏移，这些灯虽然位于更远处但是光强更大。  
+除了Vespa上的反射(主要在16SPP图像上可见)之外，使用$\bold{n}\cdot\bold{l}$约束在这个场景中没有太大差别，但是效果在其他场景中可能更加明显。图片[18-10]()显示了Sun Temple的一个例子。在这个场景里，使用$\bold{n}\cdot\bold{l}$约束导致右边柱子的后面接收更多的光，并且可以与它在附近的墙壁上投下的阴影区分开来，以及雕像附近的建筑细节变得可见。   
+![](https://i.postimg.cc/gJQxpR17/ch18-011.png)  
+**图片 18-10.** 不使用$\bold{n}\cdot\bold{l}$约束(左)与使用(右)相比时的视觉结果。两个图像都使用8SPP(4个BRDF样本和4个光源样本)和使用三个轴分组的BVH，其中16个分箱使用SAH，并且都考虑了光源的距离和通量。  
+即使没有使用SAOH，方向锥对最终图像的影响仍然很小;例如，与不使用方向锥相比，图[18-9]()中的面(在街道的尽头和图像的右下角)噪声较小。  
+加速结构的使用显着提高了渲染质量，如图[18-8]()所示，与均匀采样方法相比，MSE得分提高了4到6倍，即使只考虑节点距离节点作为重要性也是这样。结合通量，$\bold{n}\cdot\bold{l}$约束和方向锥进一步提高了2倍。  
 ## 18.6 结论 (26-26)
+我们提出了一种分层数据结构和采样方法，以加速实时光线跟踪中的光源重要性采样，类似于离线渲染中使用的[[11](),[22]()]。我们已经利用硬件加速的光线跟踪来探索GPU上采样性能。我们还使用不同的启发式构建方法呈现了结果。我们希望这项工作能够激发更多未来在游戏引擎研究方面的工作，以便采用更好的采样策略。   
+虽然本章的重点是采样问题，但应该注意的是，任何基于采样的方法通常都需要与某种形式的降噪滤波器配对以消除残留噪声，我们推荐读者一些最近的基于高级双边核(bilateral kernel)的实时方法[[25](),[34](),[35]()]作为一个合适的起点。基于深度学习的方法[[3](),[7](),[42]()]也展示出巨大的希望。有关传统技术的概述，请参阅Zwicker等人的调查[[48]()]。  
+对于采样，有许多值得改进的途径。在当前的实现中，我们使用$\bold{n}\cdot\bold{l}$来剔除在水平线下的光源。结合BRDF和可见性信息对于在树中的遍历期间提升采样效果是非常有帮助的。实际上，出于性能原因，我们希望将BVH构建代码移至GPU。这也对于支持动态或蒙皮几何体上的光源很重要。  
+## 致谢
+感谢Nicholas Hull和Kate Anderson创建测试场景。Sum Temple[[13]()]和Paragon Battlegrounds场景基于Epic Games的慷慨贡献。Bistro场景基于亚马逊Lumberyard的慷慨贡献[[1]()]。感谢Benty等人[[4]()]为创建Falcor渲染研究框架，以及He等人[[16]()]和Jonathan Small为Falcor使用的Slang着色器编译器的贡献。我们还要感谢Pierre Moreau在隆德大学的教授Michael Doggett。最后，感谢Aaron Lefohn和NVIDIA Research支持这项工作。   
+
+## 参考
 
 [18.2]:18.2
 [18-1]:18-1
@@ -215,3 +263,55 @@ $$p(L)=\frac{\text{importance}(L)}{\text{importance}(L)+\text{importance}(R)}$$
 [46]:46  
 [47]:47  
 [48]:48  
+
+
+[1]  Amazon Lumberyard. Amazon Lumberyard Bistro, Open Research Content Archive (ORCA).  
+http://developer.nvidia.com/orca/amazon-lumberyard-bistro, July 2017.  
+[2]  Andersson, J. Parallel Graphics in Frostbite—Current & Future. Beyond Programmable Shading,SIGGRAPH Courses, 2009.  
+[3]  Bako, S., Vogels, T., McWilliams, B., Meyer, M., Novák, J., Harvill, A., Sen, P., DeRose, T., and Rousselle, F. Kernel-Predicting Convolutional Networks for Denoising Monte Carlo Renderings.  
+ACM Transactions on Graphics 36, 4 (2017), 97:1–97:14.  
+[4]  Benty, N., yao, K.-H., Foley, T., Kaplanyan, A. S., Lavelle, C., Wyman, C., and Vijay, A. The Falcor Rendering Framework. https://github.com/NVIDIAGameWorks/Falcor, July 2017.  
+[5]  Bikker, J. Real-Time Ray Tracing Through the Eyes of a Game Developer. In IEEE Symposium on Interactive Ray Tracing (2007), pp. 1–10.  
+[6]  Bikker, J. Ray Tracing in Real-Time Games. PhD thesis, Delft University, 2012.  
+[7]  Chaitanya, C. R. A., Kaplanyan, A. S., Schied, C., Salvi, M., Lefohn, A., Nowrouzezahrai, D., and Aila, T. Interactive Reconstruction of Monte Carlo Image Sequences Using a Recurrent Denoising Autoencoder. ACM Transactions on Graphics 36, 4 (2017), 98:1–98:12.  
+[8]  Christensen, P. H., and Jarosz, W. The Path to Path-Traced Movies. Foundations and Trends in Computer Graphics and Vision 10, 2 (2016), 103–175.  
+[9]  Clarberg, P., Jarosz, W., Akenine-Möller, T., and Jensen, H. W. Wavelet Importance Sampling: Efficiently Evaluating Products of Complex Functions. ACM Transactions on Graphics 24, 3 (2005), 1166–1175.  
+[10]  Clark, J. H. Hierarchical Geometric Models for Visibility Surface Algorithms. Communications of the ACM 19, 10 (1976), 547–554.  
+[11]  Conty Estevez, A., and Kulla, C. Importance Sampling of Many Lights with Adaptive Tree Splitting. Proceedings of the ACM on Computer Graphics and Interactive Techniques 1, 2 (2018), 25:1–25:17.  
+[12]  Dachsbacher, C., Křivánek, J., Hašan, M., Arbree, A., Walter, B., and Novák, J. Scalable Realistic Rendering with Many-Light Methods. Computer Graphics Forum 33, 1 (2014), 88–104.  
+[13]  Epic Games. Unreal Engine Sun Temple, Open Research Content Archive (ORCA). http://developer.nvidia.com/orca/epic-games-sun-temple, October 2017.  
+[14]  Goldsmith, J., and Salmon, J. Automatic Creation of Object Hierarchies for Ray Tracing. IEEE Computer Graphics and Applications 7, 5 (1987), 14–20.  
+[15]  Harada, T. A 2.5D Culling for Forward+. In SIGGRAPH Asia 2012 Technical Briefs (2012), pp. 18:1–18:4.  
+[16]  He, y., Fatahalian, K., and Foley, T. Slang: Language Mechanisms for Extensible Real-Time Shading Systems. ACM Transactions on Graphics 37, 4 (2018), 141:1–141:13.  
+[17]  Heitz, E., Dupuy, J., Hill, S., and Neubelt, D. Real-Time Polygonal-Light Shading with Linearly Transformed Cosines. ACM Transactions on Graphics 35, 4 (2016), 41:1–41:8.  
+[18]  Kajiya, J. T. The Rendering Equation. Computer Graphics (SIGGRAPH) (1986), 143–150.  
+[19]  Karis, B. Real Shading in Unreal Engine 4. Physically Based Shading in Theory and Practice, SIGGRAPH Courses, August 2013.  
+[20]  Keller, A. Instant Radiosity. In Proceedings of SIGGRAPH (1997), pp. 49–56.  
+[21]  Keller, A., Fascione, L., Fajardo, M., Georgiev, I., Christensen, P., Hanika, J., Eisenacher, C., and Nichols, G. The Path Tracing Revolution in the Movie Industry. In ACM SIGGRAPH Courses (2015), pp. 24:1–24:7.   
+[22]  Keller, A., Wächter, C., Raab, M., Seibert, D., van Antwerpen, D., Korndörfer, J., and Kettner, L. The Iray Light Transport Simulation and Rendering System. arXiv, https://arxiv.org/abs/1705.01263, 2017.  
+[23]  Lagarde, S., and de Rousiers, C. Moving Frostbite to Physically Based Rendering 3.0. Physically Based Shading in Theory and Practice, SIGGRAPH Courses, 2014.  
+[24]  MacDonald, J. D., and Booth, K. S. Heuristics for Ray Tracing Using Space Subdivision. The Visual Computer 6, 3 (1990), 153–166.  
+[25]  Mara, M., McGuire, M., Bitterli, B., and Jarosz, W. An Efficient Denoising Algorithm for Global Illumination. In Proceedings of High-Performance Graphics (2017), pp. 3:1–3:7.  
+[26]  NVIDIA. NVAPI, 2018. https://developer.nvidia.com/nvapi.  
+[27]  O’Donnell, y., and Chajdas, M. G. Tiled Light Trees. In Symposium on Interactive 3D Graphics and Games (2017), pp. 1:1–1:7.  
+[28]  Olsson, O., and Assarsson, U. Tiled Shading. Journal of Graphics, GPU, and Game Tools 15, 4 (2011), 235–251.  
+[29]  Olsson, O., Billeter, M., and Assarsson, U. Clustered Deferred and Forward Shading. In Proceedings of High-Performance Graphics (2012), pp. 87–96.  
+[30]  Persson, E., and Olsson, O. Practical Clustered Deferred and Forward Shading. Advances in Real-Time Rendering in Games, SIGGRAPH Courses, 2013.  
+[31]  Pharr, M. Guest Editor’s Introduction: Special Issue on Production Rendering. ACM Transactions on Graphics 37, 3 (2018), 28:1–28:4.  
+[32]  Pharr, M., Jakob, W., and Humphreys, G. Physically Based Rendering: From Theory to Implementation, third ed. Morgan Kaufmann, 2016.   
+[33]  Rubin, S. M., and Whitted, T. A 3-Dimensional Representation for Fast Rendering of Complex Scenes. Computer Graphics (SIGGRAPH) 14, 3 (1980), 110–116.  
+[34]  Schied, C., Kaplanyan, A., Wyman, C., Patney, A., Chaitanya, C. R. A., Burgess, J., Liu, S., Dachsbacher, C., Lefohn, A., and Salvi, M. Spatiotemporal Variance- Guided Filtering: Real-Time Reconstruction for Path-Traced Global Illumination. In Proceedings of High-Performance Graphics(2017), pp. 2:1–2:12.  
+[35]  Schied, C., Peters, C., and Dachsbacher, C. Gradient Estimation for Real-Time Adaptive Temporal Filtering. Proceedings of the ACM on Computer Graphics and Interactive Techniques 1, 2 (2018), 24:1–24:16.  
+[36]  Schmittler, J., Pohl, D., Dahmen, T., Vogelgesang, C., and Slusallek, P. Realtime Ray Tracing for Current and Future Games. In ACM SIGGRAPH Courses (2005), pp. 23:1–23:5.  
+[37]  Shirley, P., Wang, C., and Zimmerman, K. Monte Carlo Techniques for Direct Lighting Calculations. ACM Transactions on Graphics 15, 1 (1996), 1–36.  
+[38]  Sobol, I. M. A Primer for the Monte Carlo Method. CRC Press, 1994.  
+[39]  Talbot, J. F., Cline, D., and Egbert, P. Importance Resampling for Global Illumination. In Rendering Techniques (2005), pp. 139–146.   
+[40]  Tokuyoshi, y., and Harada, T. Stochastic Light Culling. Journal of Computer Graphics Techniques 5, 1 (2016), 35–60.  
+[41]  Veach, E., and Guibas, L. J. Optimally Combining Sampling Techniques for Monte Carlo Rendering. In Proceedings of SIGGRAPH (1995), pp. 419–428.  
+[42]  Vogels, T., Rousselle, F., McWilliams, B., Röthlin, G., Harvill, A., Adler, D., Meyer, M., and Novák, J. Denoising with Kernel Prediction and Asymmetric Loss Functions. ACM Transactions on Graphics 37, 4 (2018), 124:1–124:15.  
+[43]  Wald, I. On Fast Construction of SAH-Based Bounding Volume Hierarchies. In IEEE Symposium on Interactive Ray Tracing (2007), pp. 33–40.  
+[44]  Walter, B., Arbree, A., Bala, K., and Greenberg, D. P. Multidimensional Lightcuts. ACM Transactions on Graphics 25, 3 (2006), 1081–1088.  
+[45]  Walter, B., Fernandez, S., Arbree, A., Bala, K., Donikian, M., and Greenberg, D. P. Lightcuts: A Scalable Approach to Illumination. ACM Transactions on Graphics 24, 3 (2005), 1098–1107.  
+[46]  Ward, G. J. Adaptive Shadow Testing for Ray Tracing. In Eurographics Workshop on Rendering (1991), pp. 11–20.  
+[47]  Zimmerman, K., and Shirley, P. A Two-Pass Solution to the Rendering Equation with a Source Visibility Preprocess. In Rendering Techniques (1995), pp. 284–295.  
+[48]  Zwicker, M., Jarosz, W., Lehtinen, J., Moon, B., Ramamoorthi, R., Rousselle, F., Sen, P., Soler, C., and yoon, S.-E. Recent Advances in Adaptive Sampling and Reconstruction for Monte Carlo Rendering. Computer Graphics Forum 34, 2 (2015), 667–681.  
