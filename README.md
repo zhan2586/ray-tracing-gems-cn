@@ -42,7 +42,7 @@ https://github.com/vinjn/ray-tracing-gems-cn/projects
 PART 4: SAMPLING, editor: Alexander Keller
 =
 - [x] `Altmice` 15. On the Importance of Sampling, by Matt Pharr
-- [x] `FancyVin` / `FaithZL` 16. Sample Transformations Zoo, by Peter Shirley, Samuli Laine, David Hart, Matt Pharr, Petrik Clarberg, Eric Haines, Matthias Raab, and David Cline
+- [x] `ch3coohlink` / `haiyuem` 16. Sample Transformations Zoo, by Peter Shirley, Samuli Laine, David Hart, Matt Pharr, Petrik Clarberg, Eric Haines, Matthias Raab, and David Cline
 - [x] `Angiewei` / `slongle` 17. Ignoring the Inconvenient When Tracing Rays, by Matt Pharr
 - [x] `slongle` 18. Importance Sampling of Many Lights on the GPU, by Pierre Moreau and Petrik Clarberg
 
@@ -57,11 +57,11 @@ PART 4: SAMPLING, editor: Alexander Keller
 - [x] `tavechiang` 24. Real-Time Global Illumination with Photon Mapping, by Niklas Smal and Maksim Aizenshtein
 - [x] `tankiJong` / `rockyvon` 25. Hybrid Rendering for Real-Time Ray Tracing, by Colin Barré-Brisebois, Henrik Halén, Graham Wihlidal, Andrew Lauritzen, Jasper Bekkers, Tomasz Stachowiak, and Johan Andersson
 - [x] `tankiJong` 26. Deferred Hybrid Path Tracing, by Thomas Schander, Clemens Musterle, and Stephan Bergmann
-- [x] `zhxx1987` 27. Interactive Ray Tracing Techniques for High-Fidelity Scientific Visualization, by John E. Stone
+- [x] `chianti/LIJIE` 27. Interactive Ray Tracing Techniques for High-Fidelity Scientific Visualization, by John E. Stone
 
 ## PART 7: GLOBAL ILLUMINATION, editor: Matt Pharr
 - [x] `qingqhua` 28. Ray Tracing Inhomogeneous Volumes, by Matthias Raab
 - [x] `zhan2586` 29. Efficient Particle Volume Splatting in a Ray Tracer, by Aaron Knoll, R. Keith Morley, Ingo Wald, Nick Leaf, and Peter Messmer
 - [x] `FancyVin` 30. Caustics Using Screen Space Photon Mapping, by Hyuk Kim
-- [x] `papalqi` / `zhxx1987` 31. Variance Reduction via Footprint Estimation in the Presence of Path Reuse, by Johannes Jendersie
+- [x] `papalqi` 31. Variance Reduction via Footprint Estimation in the Presence of Path Reuse, by Johannes Jendersie
 - [x] `papalqi` 32. Accurate Real-Time Specular Reflections with Radiance Caching, by Antti Hirvonen, Atte Seppälä, Maksim Aizenshtein, and Niklas Smal
